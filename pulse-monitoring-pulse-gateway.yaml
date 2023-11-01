@@ -19,11 +19,16 @@ spec:
             memory: "300Mi"
             cpu: "250m"
         env:
-        - name: MONGO_PASSWORD
+        - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: pulse-monitoring-secret
-              key: mongoPassword        
+              key: adminPassword   
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: pulse-monitoring-secret
+              key: jwtSecret       
         - name: CONFIG_SERVER_HOST
           valueFrom:
             configMapKeyRef:
@@ -39,8 +44,9 @@ metadata:
 spec:
   selector:
     app: gateway
+    type: LoadBalancer
   ports:
-  - port: 9090
+  - port: 9292
     targetPort: 9292
 
               
